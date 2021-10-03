@@ -1,5 +1,13 @@
 # IDX Scrapper
 
+## PEMBERITAHUAN
+
+Karena website IDX menggunakan Cloudflare, maka scraper ini sudah TIDAK jalan lagi. Temen-temen developer saya persilahkan untuk coba mengulik lebih lanjut dan ikut berkontribusi. Jika teman-teman researcher membutuhkan datanya saja, silakan pakai link di bawah ini dan kunjungi secara manual.
+
+https://idx.co.id/umbraco/Surface/ListedCompany/GetTradingInfoSS?code=BBRI&length=100
+
+Perhatikan bahwa ada code=BBRI dan length=100. code merupakan ticket symbol dari emiten. Sedangkan length merupakan lama data yang ingin temen-temen ambil. Misalnya length=100 maka akan diambil data 100 hari bursa. Silakan diganti-ganti sendiri ya.
+
 ## Overview
 
 IDX Scrapper merupakan sebuah scrapper yang dibuat menggunakan bahasa Python. Scrapper ini memanfaatkan endpoint-endpoint dari API yang dimiliki oleh PT Bursa Efek Indonesia (BEI) pada websitenya yaitu [idx.co.id](https://idx.co.id).
