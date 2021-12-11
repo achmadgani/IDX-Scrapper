@@ -13,6 +13,10 @@ jobs:
   Runner:
     runs-on: windows-latest
 
+    defaults:
+      run:
+        working-directory: ./src
+
     steps:
       - uses: actions/checkout@v2
 
@@ -36,8 +40,8 @@ jobs:
       - name: Run get-list-emiten.py
         run: python get-list-emiten.py
 
-      - name: Run get-data-emiten.py
-        run: python get-data-emiten.py
+      # - name: Run get-data-emiten.py
+      #   run: python get-data-emiten.py
 
       - name: Check data directory
         run: ls ./data
@@ -46,14 +50,14 @@ jobs:
         run: echo "NOW::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
+        run: |
+          cd data
+          git config --global user.name "Wildan Gunawan"
+          git config --global user.email $USER_EMAIL
+
+          git add .
+          git commit -m "Update data for $NOW"
+          git push https://$PAT_GITHUB@github.com/wildangunawan/Dataset-Saham-IDX.git
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: "data"
-          destination-github-username: "wildangunawan"
-          destination-repository-name: "Dataset-Saham-IDX"
-          user-email: ${{ secrets.USER_EMAIL }}
-          commit-message: Update data for $NOW
-          target-branch: master
+          PAT_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          USER_EMAIL: ${{ secrets.USER_EMAIL }}
