@@ -1,5 +1,11 @@
-import cloudscraper, json
+import json
 import pandas as pd
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
+
+# http client
+http = Chrome()
 
 # mulai dari 0
 start = 0
@@ -25,16 +31,25 @@ lq45_listingDate = []
 lq45_shares = []
 lq45_listingBoard = []
 
-# http client
-http = cloudscraper.CloudScraper()
-
 while True:
 	# buat link
 	link = f"https://idx.co.id/umbraco/Surface/StockData/GetSecuritiesStock?code=&sector=&board=&start={start}&length={length}"
 
 	# send request
-	result = http.get(link).text
-	result = json.loads(result)
+	http.get(link)
+
+	# Try to get data
+	try:
+		# Get data
+		result = http.find_element(By.CSS_SELECTOR, "pre").text
+		result = json.loads(result)
+	except NoSuchElementException:
+		# If fails then we dump the source code then break the loop (sad)
+		print(http.page_source)
+		break
+	except:
+		print("Unknown error")
+		break
 
 	# result empty?
 	# kalo iya, berarti daftar
