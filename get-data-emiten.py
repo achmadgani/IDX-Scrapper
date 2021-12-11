@@ -4,12 +4,22 @@ from time import sleep
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
+from datetime import datetime
+date_format = "%Y-%m-%d"
+
+# Read info about the dataset
+with open('data/info.json') as f:
+	info = json.load(f)
+
+# Count days from last update
+last_update = datetime.strptime(info['last_update'], date_format)
+delta = datetime.today() - last_update
+
 # http client
 http = Chrome()
 
-# length 1 untuk 1 hari kerja
-# karena kita mau ambil sehari aja
-length = 1
+# Use delta.days + 1 to determine the length
+length = delta.days + 1
 
 # list emiten
 emiten = pd.read_csv('data/List Emiten/all.csv')
@@ -181,3 +191,9 @@ for code in kode_emiten:
 
 	# bobo dulu biar ga kena ban
 	sleep(15)
+
+# Update dataset info
+with open('data/info.json', 'w') as f:
+	f.write(json.dumps({
+		"last_update": str(datetime.now().strftime("%Y-%m-%d"))
+	}))
