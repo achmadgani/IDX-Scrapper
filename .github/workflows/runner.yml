@@ -36,8 +36,24 @@ jobs:
       - name: Run get-list-emiten.py
         run: python get-list-emiten.py
 
-      - name: Check working directory
-        run: dir .
+      - name: Run get-data-emiten.py
+        run: python get-data-emiten.py
 
-      - name: Check working retrieved data
-        run: dir "./data/List Emiten"
+      - name: Check data directory
+        run: ls ./data
+
+      - name: Set current date as env variable
+        run: echo "NOW::$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: "data"
+          destination-github-username: "wildangunawan"
+          destination-repository-name: "Dataset-Saham-IDX"
+          user-email: ${{ secrets.USER_EMAIL }}
+          commit-message: Update data for $NOW
+          target-branch: master
