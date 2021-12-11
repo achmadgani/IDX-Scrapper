@@ -1,11 +1,11 @@
 import json
 import pandas as pd
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver import Chrome
+import undetected_chromedriver.v2 as uc
 from selenium.webdriver.common.by import By
 
 # http client
-http = Chrome()
+http = uc.Chrome()
 
 # mulai dari 0
 start = 0
