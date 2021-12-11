@@ -3,7 +3,7 @@ import pandas as pd
 from time import sleep
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
-
+from selenium.common.exceptions import NoSuchElementException
 
 # Create directory if not exists
 import os
@@ -61,6 +61,10 @@ for code in kode_emiten:
 			result = json.loads(result)
 
 			# success, we stop the while loop
+			break
+		except NoSuchElementException:
+			print(f"Failed to get data for {code}")
+			print(http.page_source)
 			break
 		except:
 			# error, we sleep for 2 minutes
