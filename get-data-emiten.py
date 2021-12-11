@@ -1,4 +1,4 @@
-import json
+import json, os
 import pandas as pd
 from time import sleep
 from selenium.webdriver import Chrome
@@ -20,6 +20,14 @@ http = Chrome()
 
 # Use delta.days + 1 to determine the length
 length = delta.days + 1
+
+# Create directory if not exists
+if not os.path.exists('data/List Emiten'):
+	os.makedirs('data/List Emiten')
+if not os.path.exists('data/Saham/Semua'):
+	os.makedirs('data/Saham/Semua')
+if not os.path.exists('data/Saham/LQ45'):
+	os.makedirs('data/Saham/LQ45')
 
 # list emiten
 emiten = pd.read_csv('data/List Emiten/all.csv')
