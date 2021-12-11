@@ -21,6 +21,12 @@ python get-list-emiten.py
 python get-data-emiten.py
 ```
 
+Download data bisa sampai dengan 3-4 jam. Jadi harap bersabar :)
+
+### Problem dengan Cloudflare
+
+Saya sudah mencoba untuk melakukan otomasi saat scraping dengan menggunakan Github Actions. Namun sayangnya Cloudflare tetap menghalangi kita untuk melakukan scraping. Jadi kalau nanti di device Anda ada masalah Cloudflare juga, berarti harus pakai device lain :)
+
 ### Penggunaan Untuk Komersial
 
 Mengacu pada [Syarat Penggunaan](https://idx.co.id/footer-menu/tautan-langsung/syarat-penggunaan/) PT Bursa Efek Indonesia Nomor 5:
