@@ -4,30 +4,37 @@ from time import sleep
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
-from datetime import datetime
-date_format = "%Y-%m-%d"
-
-# Read info about the dataset
-with open('data/info.json') as f:
-	info = json.load(f)
-
-# Count days from last update
-last_update = datetime.strptime(info['last_update'], date_format)
-delta = datetime.today() - last_update
-
-# http client
-http = Chrome()
-
-# Use delta.days + 1 to determine the length
-length = delta.days + 1
 
 # Create directory if not exists
+import os
 if not os.path.exists('data/List Emiten'):
 	os.makedirs('data/List Emiten')
 if not os.path.exists('data/Saham/Semua'):
 	os.makedirs('data/Saham/Semua')
 if not os.path.exists('data/Saham/LQ45'):
 	os.makedirs('data/Saham/LQ45')
+
+from datetime import datetime
+date_format = "%Y-%m-%d"
+
+# Read info about the dataset
+# Check if the file exists
+if os.path.isfile('data/info.json'):
+	with open('data/info.json') as f:
+		info = json.load(f)
+
+		# Count days from last update
+		last_update = datetime.strptime(info['last_update'], date_format)
+		delta = datetime.today() - last_update
+
+		# Use delta.days + 1 to determine the length
+		length = delta.days + 1
+else:
+	# Get full year data
+	length = 365
+
+# http client
+http = Chrome()
 
 # list emiten
 emiten = pd.read_csv('data/List Emiten/all.csv')
@@ -201,7 +208,7 @@ for code in kode_emiten:
 	sleep(15)
 
 # Update dataset info
-with open('data/info.json', 'w') as f:
+with open('data/info.json', 'w+') as f:
 	f.write(json.dumps({
 		"last_update": str(datetime.now().strftime("%Y-%m-%d"))
 	}))
