@@ -11,23 +11,17 @@ on:
 
 jobs:
   Tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Clone wildangunawan/Dataset-Saham-IDX
-        uses: GuillaumeFalourd/clone-github-repo-action@v1
-        with:
-          owner: "wildangunawan"
-          repository: "Dataset-Saham-IDX"
+      - name: Clone wildangunawan/Dataset-Saham-IDX into data folder
+        run: git clone https://github.com/wildangunawan/Dataset-Saham-IDX.git data
 
       - name: "Setup chromedriver"
         uses: nanasess/setup-chromedriver@v1
-      - run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+      - run: chromedriver --url-base=/wd/hub &
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -43,9 +37,7 @@ jobs:
         run: python get-list-emiten.py
 
       - name: Check working directory
-        run: |
-          ls .
+        run: dir .
 
       - name: Check working retrieved data
-        run: |
-          ls "./data/List Emiten"
+        run: dir "./data/List Emiten"
