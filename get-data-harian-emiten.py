@@ -1,6 +1,11 @@
-import cloudscraper, json
+import json
 import pandas as pd
 from time import sleep
+from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
+
+# http client
+http = Chrome()
 
 # length 1 untuk 1 hari kerja
 # karena kita mau ambil sehari aja
@@ -14,9 +19,6 @@ lq45 = pd.read_csv('data/List Emiten/LQ45.csv')
 kode_emiten = emiten['code'].values
 kode_lq45 = lq45['code'].values
 
-# http client
-http = cloudscraper.CloudScraper()
-
 for code in kode_emiten:
 	# link
 	link = f"https://idx.co.id/umbraco/Surface/ListedCompany/GetTradingInfoSS?code={code}&length={length}"
@@ -27,8 +29,10 @@ for code in kode_emiten:
 	while True:
 		try:
 			# send request
-			result = http.get(link).text
-			result = http.get(link).text
+			http.get(link)
+
+			# Get data
+			result = http.find_element(By.CSS_SELECTOR, "pre").text
 			result = json.loads(result)
 
 			# success, we stop the while loop

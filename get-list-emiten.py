@@ -1,5 +1,10 @@
-import cloudscraper, json
+import json
 import pandas as pd
+from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
+
+# http client
+http = Chrome()
 
 # mulai dari 0
 start = 0
@@ -25,15 +30,15 @@ lq45_listingDate = []
 lq45_shares = []
 lq45_listingBoard = []
 
-# http client
-http = cloudscraper.CloudScraper()
-
 while True:
 	# buat link
 	link = f"https://idx.co.id/umbraco/Surface/StockData/GetSecuritiesStock?code=&sector=&board=&start={start}&length={length}"
 
 	# send request
-	result = http.get(link).text
+	http.get(link)
+
+	# Get data
+	result = http.find_element(By.CSS_SELECTOR, "pre").text
 	result = json.loads(result)
 
 	# result empty?
