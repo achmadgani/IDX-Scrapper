@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 
@@ -37,9 +38,18 @@ while True:
 	# send request
 	http.get(link)
 
-	# Get data
-	result = http.find_element(By.CSS_SELECTOR, "pre").text
-	result = json.loads(result)
+	# Try to get data
+	try:
+		# Get data
+		result = http.find_element(By.CSS_SELECTOR, "pre").text
+		result = json.loads(result)
+	except NoSuchElementException:
+		# If fails then we dump the source code then break the loop (sad)
+		print(http.page_source)
+		break
+	except:
+		print("Unknown error")
+		break
 
 	# result empty?
 	# kalo iya, berarti daftar
