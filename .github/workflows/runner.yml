@@ -10,7 +10,7 @@ on:
     branches: [master, selenium]
 
 jobs:
-  Tests:
+  Runner:
     runs-on: windows-latest
 
     steps:
